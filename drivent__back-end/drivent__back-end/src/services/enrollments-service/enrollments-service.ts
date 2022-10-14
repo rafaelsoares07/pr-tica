@@ -8,6 +8,8 @@ export async function getOneWithAddressByUserId(userId: number) {
     },
   });
 
+  console.log("aqui eu")
+
   if (!enrollmentWithAddress) return undefined;
 
   const firstAddress = enrollmentWithAddress.Address[0];
@@ -53,6 +55,21 @@ export async function createOrUpdateEnrollmentWithAddress(params: CreateEnrollme
       },
     },
   };
+
+  const addressExist = await prisma.address.findFirst({
+    where:{
+      AND:[
+        {enrollmentId:params.userId},
+        {cep:params.address.cep},
+        {number:params.address.number}
+      ]
+    }
+  })
+
+  if(addressExist){
+    throw {name:"ConflictError"}
+  }
+
 
   await prisma.enrollment.upsert({
     where: {

@@ -3,6 +3,7 @@ import httpStatus from 'http-status';
 
 import { AuthenticatedRequest } from '@/middlewares';
 import { createOrUpdateEnrollmentWithAddress, getOneWithAddressByUserId } from '@/services';
+import { Console } from 'console';
 
 export async function getEnrollmentByUser(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
@@ -14,6 +15,8 @@ export async function getEnrollmentByUser(req: AuthenticatedRequest, res: Respon
 }
 
 export async function postCreateOrUpdateEnrollment(req: AuthenticatedRequest, res: Response) {
+
+  console.log("chegou aqui")
   await createOrUpdateEnrollmentWithAddress({
     name: req.body.name,
     cpf: req.body.cpf,
